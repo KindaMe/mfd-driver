@@ -69,6 +69,26 @@ public:
 
 			_DataToSend.Speed = data->VelocitySpeedMs * 3.6;
 			_DataToSend.Gear = data->Gear;
+
+			float revpercent = (data->SpeedofEngine / data->MaximumRPM) * (float)100;
+
+			int counter = 0;
+
+			while (counter < 15)
+			{
+				if (revpercent - 50 > counter * 3.33)
+				{
+					_DataToSend.RevLights &= ~(1u << counter);
+					_DataToSend.RevLights |= (1u << counter);
+				}
+				else
+				{
+					_DataToSend.RevLights &= ~(1u << counter);
+					_DataToSend.RevLights |= (0u << counter);
+				}
+
+				counter++;
+			}
 		}
 	}
 };
